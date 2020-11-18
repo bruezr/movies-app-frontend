@@ -1,7 +1,7 @@
 import React from 'react';
 
 function AddMovie(props) {
-  return <div></div>;
+  return <div>Hello from AddMovies Component!</div>;
 }
 
 export default AddMovie;

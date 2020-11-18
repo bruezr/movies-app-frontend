@@ -3,7 +3,7 @@ import Movies from './components/movies';
 import AddMovie from './components/addMovie';
 
 const routes = {
-  '/movies': () => <Movies />,
+  '/': () => <Movies />,
   '/addmovie': () => <AddMovie />,
 };
 

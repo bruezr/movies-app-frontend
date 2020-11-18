@@ -1,7 +1,7 @@
 import React from 'react';
 
 function Movies(props) {
-  return <div></div>;
+  return <div>Hello from Movies component!</div>;
 }
 
 export default Movies;
