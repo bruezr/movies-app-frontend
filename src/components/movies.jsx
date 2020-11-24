@@ -20,25 +20,33 @@ function Movies(props) {
   };
 
   return (
-    <div>
-      <div className="row row-cols-1 row-cols-md-4">
-        {movies.map((movie) => (
-          <div className="col mb-4" key={movie._id}>
-            <div className="card" style={{ width: '18rem' }}>
-              <div className="card-body">
-                <h5 className="card-title">{movie.title}</h5>
-                <h6 className="card-subtitle mb-2 text-muted">
-                  {movie.release_date}
-                </h6>
-                <h6 className="card-subtitle mb-2 text-muted">
-                  Stock {movie.stock}
-                </h6>
-                <p className="card-text">{movie.description}</p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+    <div className="container">
+      <p>Showing {movies.length} movies in the database.</p>
+
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Release Date</th>
+            <th>Stock</th>
+          </tr>
+        </thead>
+        <tbody>
+          {movies.map((movie) => (
+            <tr key={movie._id}>
+              <td>{movie.title}</td>
+              <td>
+                {movie.description.length < 80
+                  ? movie.description
+                  : movie.description.substring(0, 80) + '...'}
+              </td>
+              <td>{movie.release_date}</td>
+              <td>{movie.stock}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
