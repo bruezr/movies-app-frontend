@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import DeleteMovie from './deleteMovie';
 import axios from 'axios';
 
 const dbUrl = process.env.REACT_APP_MOVIES_DATABASE;
@@ -19,6 +20,17 @@ function Movies(props) {
     }
   };
 
+  const handleDelete = (movieId) => {
+    const moviesBkp = movies;
+    const moviesFiltered = movies.filter((m) => m._id !== movieId);
+    setMovies(moviesFiltered);
+
+    axios.delete(dbUrl + 'movie/' + movieId).catch(() => {
+      setMovies(moviesBkp);
+      console.log('Database connection error');
+    });
+  };
+
   return (
     <div className="container">
       <p>Showing {movies.length} movies in the database.</p>
@@ -30,6 +42,7 @@ function Movies(props) {
             <th>Description</th>
             <th>Release Date</th>
             <th>Stock</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -43,6 +56,9 @@ function Movies(props) {
               </td>
               <td>{movie.release_date}</td>
               <td>{movie.stock}</td>
+              <td>
+                <DeleteMovie movieId={movie._id} onDelete={handleDelete} />
+              </td>
             </tr>
           ))}
         </tbody>
