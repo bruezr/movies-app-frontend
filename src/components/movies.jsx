@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-
-const dbUrl = process.env.REACT_APP_MOVIES_DATABASE;
+import moviesList from '../services/movieService';
+import DeleteMovie from './deleteMovie';
 
 function Movies(props) {
   const [movies, setMovies] = useState([]);
@@ -10,14 +9,22 @@ function Movies(props) {
     getMovies();
   }, []);
 
-  const getMovies = async () => {
-    try {
-      const result = await axios(dbUrl + 'movies');
-      setMovies(result.data);
-    } catch (error) {
-      console.log(error);
-    }
+  const getMovies = () => {
+    setMovies(moviesList);
   };
+
+  const handleDelete = (movieId) => {
+    const filteredMovies = movies.filter((m) => m._id !== movieId);
+    setMovies(filteredMovies);
+  };
+
+  if (movies.length === 0) {
+    return (
+      <div className="container">
+        <h1>There are no movies in the database</h1>
+      </div>
+    );
+  }
 
   return (
     <div className="container">
@@ -30,6 +37,7 @@ function Movies(props) {
             <th>Description</th>
             <th>Release Date</th>
             <th>Stock</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -43,6 +51,9 @@ function Movies(props) {
               </td>
               <td>{movie.release_date}</td>
               <td>{movie.stock}</td>
+              <td>
+                <DeleteMovie movieId={movie._id} onDelete={handleDelete} />
+              </td>
             </tr>
           ))}
         </tbody>
