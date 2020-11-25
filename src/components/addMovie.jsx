@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 
-const dbUrl = process.env.REACT_APP_MOVIES_DATABASE;
+import { insertMovie } from '../services/movieService';
 
 function AddMovie(props) {
   const [movie, setMovie] = useState({
@@ -46,7 +45,7 @@ function AddMovie(props) {
   };
 
   const saveMovieToDb = () => {
-    axios.post(dbUrl + 'movie', movie).catch((e) => console.log(e));
+    insertMovie(movie);
   };
 
   if (submitted && valid) {

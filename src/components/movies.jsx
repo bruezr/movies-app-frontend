@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import moviesList from '../services/movieService';
+import { moviesList } from '../services/movieService';
 import DeleteMovie from './deleteMovie';
 
 function Movies(props) {
