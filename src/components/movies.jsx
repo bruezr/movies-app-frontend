@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { moviesList } from '../services/movieService';
+import { filterMovie } from '../services/movieService';
 import DeleteMovie from './deleteMovie';
 
 function Movies(props) {
@@ -14,8 +15,8 @@ function Movies(props) {
   };
 
   const handleDelete = (movieId) => {
-    const filteredMovies = movies.filter((m) => m._id !== movieId);
-    setMovies(filteredMovies);
+    filterMovie(movieId);
+    getMovies();
   };
 
   if (movies.length === 0) {
@@ -45,9 +46,9 @@ function Movies(props) {
             <tr key={movie._id}>
               <td>{movie.title}</td>
               <td>
-                {movie.description.length < 80
+                {movie.description.length < 100
                   ? movie.description
-                  : movie.description.substring(0, 80) + '...'}
+                  : movie.description.substring(0, 100) + '...'}
               </td>
               <td>{movie.release_date}</td>
               <td>{movie.stock}</td>

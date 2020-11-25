@@ -39,3 +39,7 @@ exports.insertMovie = (movie) => {
   movie._id = uuid.v4();
   this.moviesList.push(movie);
 };
+
+exports.filterMovie = (movieId) => {
+  this.moviesList = this.moviesList.filter((m) => m._id !== movieId);
+};
