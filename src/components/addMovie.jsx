@@ -7,10 +7,11 @@ function AddMovie(props) {
   const [movie, setMovie] = useState({
     title: '',
     description: '',
-    release_date: '',
-    stock: '',
+    release_date: false,
+    stock: false,
   });
-  const [submitOk, setSubmitOk] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [valid, setValid] = useState(false);
 
   const handleTitleChange = (event) => {
     setMovie({ ...movie, title: event.target.value });
@@ -27,21 +28,35 @@ function AddMovie(props) {
     setMovie({ ...movie, stock: parseInt(event.target.value) });
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setMovie(movie);
-    axios
-      .post(dbUrl + 'movie', movie)
-      .then(setSubmitOk(true))
-      .catch((e) => console.log(e));
+  const validate = () => {
+    if (
+      movie.title.trim().length >= 1 &&
+      movie.description.trim().length >= 1 &&
+      movie.release_date &&
+      movie.stock
+    ) {
+      setValid(true);
+    }
   };
 
-  if (submitOk)
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setSubmitted(true);
+    validate();
+  };
+
+  const saveMovieToDb = () => {
+    axios.post(dbUrl + 'movie', movie).catch((e) => console.log(e));
+  };
+
+  if (submitted && valid) {
+    saveMovieToDb();
     return (
       <div className="container">
         <h1>Movie added successfully</h1>
       </div>
     );
+  }
 
   return (
     <div className="container">
@@ -51,39 +66,59 @@ function AddMovie(props) {
           <label>Title</label>
           <input
             type="text"
-            className="form-control"
+            className={
+              submitted && movie.title.trim().length < 1
+                ? 'form-control is-invalid'
+                : 'form-control '
+            }
             onChange={handleTitleChange}
             placeholder="Enter movie name"
           />
+          <div className="invalid-feedback">Please provide a title</div>
         </div>
         <div className="form-group">
           <label>Description</label>
           <input
             type="text"
-            className="form-control"
+            className={
+              submitted && movie.description.trim().length < 1
+                ? 'form-control is-invalid'
+                : 'form-control '
+            }
             onChange={handleDescriptionChange}
             placeholder="Enter movie description"
           />
+          <div className="invalid-feedback">Please provide a description</div>
         </div>
         <div className="form-group">
           <label>Release Date</label>
           <input
             type="number"
-            className="form-control "
+            className={
+              submitted && !movie.release_date
+                ? 'form-control is-invalid'
+                : 'form-control '
+            }
             onChange={handleReleaseDate}
             placeholder="Enter release date"
           />
+          <div className="invalid-feedback">Please provide a release date</div>
         </div>{' '}
         <div className="form-group">
           <label>Stock</label>
           <input
             type="number"
-            className="form-control"
+            className={
+              submitted && !movie.stock
+                ? 'form-control is-invalid'
+                : 'form-control '
+            }
             onChange={handleStock}
             placeholder="Enter movie stock"
           />
+          <div className="invalid-feedback">Please provide stock</div>
         </div>
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className={'btn btn-primary'}>
           Add Movie
         </button>
       </form>
