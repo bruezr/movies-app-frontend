@@ -19,6 +19,11 @@ function Navbar(props) {
                 Add Movies
               </A>
             </li>
+            <li className="nav-item">
+              <A className="nav-link" href="/register">
+                Register
+              </A>
+            </li>
           </ul>
         </div>
       </nav>

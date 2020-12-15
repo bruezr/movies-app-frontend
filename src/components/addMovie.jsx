@@ -46,7 +46,7 @@ function AddMovie(props) {
   };
 
   const saveMovieToDb = () => {
-    axios.post(dbUrl + 'movie', movie).catch((e) => console.log(e));
+    axios.post(dbUrl + 'movies', movie).catch((e) => console.log(e));
   };
 
   if (submitted && valid) {
