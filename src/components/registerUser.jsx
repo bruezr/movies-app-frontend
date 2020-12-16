@@ -25,12 +25,12 @@ function RegisterUser(props) {
 
   const validate = () => {
     if (
-      user.name.trim().length > 2 &&
-      user.name.trim().length < 50 &&
-      user.email.trim().length > 5 &&
-      user.email.trim().length < 255 &&
-      user.password.trim().length > 5 &&
-      user.password.trim().length < 20
+      user.name.trim().length >= 2 &&
+      user.name.trim().length <= 50 &&
+      user.email.trim().length >= 5 &&
+      user.email.trim().length <= 255 &&
+      user.password.trim().length >= 5 &&
+      user.password.trim().length <= 20
     ) {
       setValid(true);
     }
